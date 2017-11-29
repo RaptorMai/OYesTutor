@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		3051ACBC1F701651006CA756 /* AutoLoginVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3051ACBB1F701651006CA756 /* AutoLoginVC.swift */; };
+		30D00C461FCF50E7004ECFE5 /* NetworkReachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30D00C451FCF50E7004ECFE5 /* NetworkReachability.swift */; };
+		30D00C481FCF5195004ECFE5 /* Network.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30D00C471FCF5195004ECFE5 /* Network.swift */; };
 		30D4E17E1FAA32BD00CF8E11 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 30D4E17D1FAA32BD00CF8E11 /* Launch Screen.storyboard */; };
 		5DB6C4C81F439B8F00F0128F /* Agrume.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DB6C4C31F439B8F00F0128F /* Agrume.swift */; };
 		5DB6C4C91F439B8F00F0128F /* AgrumeServiceLocator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DB6C4C41F439B8F00F0128F /* AgrumeServiceLocator.swift */; };
@@ -412,10 +414,8 @@
 		90FB78991EF7EE9B00B02F60 /* EMEmojiEmoticons.m in Sources */ = {isa = PBXBuildFile; fileRef = 90FB78961EF7EE9B00B02F60 /* EMEmojiEmoticons.m */; };
 		B0303F491F54ED970061D7F7 /* ConnectedWithStudentVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0303F471F54ED970061D7F7 /* ConnectedWithStudentVC.swift */; };
 		B0303F4A1F54ED970061D7F7 /* ConnectedWithStudentVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = B0303F481F54ED970061D7F7 /* ConnectedWithStudentVC.xib */; };
-		E44154631FA550C9003D20D9 /* NetworkReachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = E44154621FA550C8003D20D9 /* NetworkReachability.swift */; };
 		E4C03FD91FA53D2C005AF35E /* Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4C03FD81FA53D2B005AF35E /* Config.swift */; };
 		E4C03FDD1FA54F41005AF35E /* AlertControllerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4C03FDC1FA54F41005AF35E /* AlertControllerExtension.swift */; };
-		E4C03FDF1FA54F8A005AF35E /* Network.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4C03FDE1FA54F8A005AF35E /* Network.swift */; };
 		E4DB4B381FA5356B0031418A /* ProfileSettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4DB4B371FA5355E0031418A /* ProfileSettingViewController.swift */; };
 		E4DB4B391FA5356F0031418A /* emailTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4DB4B2D1FA5355C0031418A /* emailTableViewCell.swift */; };
 		E4DB4B3A1FA5356F0031418A /* EmailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4DB4B2C1FA5355C0031418A /* EmailViewController.swift */; };
@@ -434,6 +434,8 @@
 		299C482D5D0A4D8D7E358C06 /* Pods-Hyphenate-Demo-Swift.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Hyphenate-Demo-Swift.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Hyphenate-Demo-Swift/Pods-Hyphenate-Demo-Swift.debug.xcconfig"; sourceTree = "<group>"; };
 		2C955AB940CDDDC270F02086 /* Pods_Hyphenate_Demo_Swift.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Hyphenate_Demo_Swift.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		3051ACBB1F701651006CA756 /* AutoLoginVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AutoLoginVC.swift; path = Launch/AutoLoginVC.swift; sourceTree = "<group>"; };
+		30D00C451FCF50E7004ECFE5 /* NetworkReachability.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkReachability.swift; sourceTree = "<group>"; };
+		30D00C471FCF5195004ECFE5 /* Network.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Network.swift; sourceTree = "<group>"; };
 		30D4E17D1FAA32BD00CF8E11 /* Launch Screen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
 		5DB6C4C31F439B8F00F0128F /* Agrume.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Agrume.swift; sourceTree = "<group>"; };
 		5DB6C4C41F439B8F00F0128F /* AgrumeServiceLocator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AgrumeServiceLocator.swift; sourceTree = "<group>"; };
@@ -863,10 +865,8 @@
 		A5E944F58DE3F0DB392C5330 /* Pods-Hyphenate-Demo-Swift.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Hyphenate-Demo-Swift.release.xcconfig"; path = "Pods/Target Support Files/Pods-Hyphenate-Demo-Swift/Pods-Hyphenate-Demo-Swift.release.xcconfig"; sourceTree = "<group>"; };
 		B0303F471F54ED970061D7F7 /* ConnectedWithStudentVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConnectedWithStudentVC.swift; sourceTree = "<group>"; };
 		B0303F481F54ED970061D7F7 /* ConnectedWithStudentVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ConnectedWithStudentVC.xib; sourceTree = "<group>"; };
-		E44154621FA550C8003D20D9 /* NetworkReachability.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = NetworkReachability.swift; path = "../../../../swift-demo/Hyphenate Messenger/NetworkReachability.swift"; sourceTree = "<group>"; };
 		E4C03FD81FA53D2B005AF35E /* Config.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Config.swift; sourceTree = "<group>"; };
 		E4C03FDC1FA54F41005AF35E /* AlertControllerExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertControllerExtension.swift; sourceTree = "<group>"; };
-		E4C03FDE1FA54F8A005AF35E /* Network.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Network.swift; path = "../../../../../swift-demo/Hyphenate Messenger/Network.swift"; sourceTree = "<group>"; };
 		E4DB4B2B1FA5355C0031418A /* GradeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradeViewController.swift; sourceTree = "<group>"; };
 		E4DB4B2C1FA5355C0031418A /* EmailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailViewController.swift; sourceTree = "<group>"; };
 		E4DB4B2D1FA5355C0031418A /* emailTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = emailTableViewCell.swift; sourceTree = "<group>"; };
@@ -1043,9 +1043,10 @@
 				906AD6481EFBC74A004CCCAE /* EMSDKHelper.swift */,
 				90B43DC61F00F1100084E67F /* EMMessageReadManager.swift */,
 				90F3DC391F02125700DEBB86 /* EMApplyManager.swift */,
+				30D00C471FCF5195004ECFE5 /* Network.swift */,
 				90F3DC3B1F023A4D00DEBB86 /* EMChatDemoHelper.swift */,
 				5DBF1ED61F40B72600CB2CC8 /* UIColor+HexColors.swift */,
-				E44154621FA550C8003D20D9 /* NetworkReachability.swift */,
+				30D00C451FCF50E7004ECFE5 /* NetworkReachability.swift */,
 				E4C03FDC1FA54F41005AF35E /* AlertControllerExtension.swift */,
 			);
 			path = Utilities;
@@ -1695,7 +1696,6 @@
 		90FB78901EF7EE9B00B02F60 /* Emoji */ = {
 			isa = PBXGroup;
 			children = (
-				E4C03FDE1FA54F8A005AF35E /* Network.swift */,
 				90FB78911EF7EE9B00B02F60 /* EMConvertToCommonEmoticonsHelper.h */,
 				90FB78921EF7EE9B00B02F60 /* EMConvertToCommonEmoticonsHelper.m */,
 				90FB78931EF7EE9B00B02F60 /* EMEmoji.h */,
@@ -2238,6 +2238,7 @@
 				90190C781F0F470F00A238F3 /* EMAboutViewController.swift in Sources */,
 				906AD6471EFB8705004CCCAE /* EMChatTextBubbleView.swift in Sources */,
 				906AD6491EFBC74A004CCCAE /* EMSDKHelper.swift in Sources */,
+				30D00C481FCF5195004ECFE5 /* Network.swift in Sources */,
 				90B43DC31F00C9C90084E67F /* EMChatLocationBubbleView.swift in Sources */,
 				5DB6C4CB1F439B8F00F0128F /* AgrumeCell.swift in Sources */,
 				5DBF1ED41F40AF2C00CB2CC8 /* LaunchVC.swift in Sources */,
@@ -2257,11 +2258,9 @@
 				5DBF1EDF1F40C4C600CB2CC8 /* DemoCell.swift in Sources */,
 				5DBF1EE41F40C4E300CB2CC8 /* SettingsVC.swift in Sources */,
 				90749EDA1EF90E5B00D3A065 /* wav.mm in Sources */,
-				E44154631FA550C9003D20D9 /* NetworkReachability.swift in Sources */,
 				90FB78991EF7EE9B00B02F60 /* EMEmojiEmoticons.m in Sources */,
 				90749ED41EF90E5B00D3A065 /* EMCDDeviceManager+Media.m in Sources */,
 				5DB6C4C81F439B8F00F0128F /* Agrume.swift in Sources */,
-				E4C03FDF1FA54F8A005AF35E /* Network.swift in Sources */,
 				90749ED81EF90E5B00D3A065 /* EMCDDeviceManagerBase.m in Sources */,
 				90FB78891EF7BFAE00B02F60 /* EMChatRecordView.swift in Sources */,
 				E4DB4B3C1FA5356F0031418A /* GradeViewController.swift in Sources */,
@@ -2292,6 +2291,7 @@
 				90BE5EC41F133D0D00C126EB /* EMSetNameViewController.swift in Sources */,
 				E4DB4B3D1FA5356F0031418A /* informationHeaderTableViewCell.swift in Sources */,
 				90F3DC3C1F023A4D00DEBB86 /* EMChatDemoHelper.swift in Sources */,
+				30D00C461FCF50E7004ECFE5 /* NetworkReachability.swift in Sources */,
 				90749ED61EF90E5B00D3A065 /* EMCDDeviceManager+ProximitySensor.m in Sources */,
 				90B43DD51F012E910084E67F /* EMApplyRequestCell.swift in Sources */,
 				90749EDB1EF90E5B00D3A065 /* EMVoiceConverter.mm in Sources */,
@@ -2364,7 +2364,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -2408,7 +2408,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
