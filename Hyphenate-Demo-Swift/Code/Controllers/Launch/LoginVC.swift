@@ -10,13 +10,15 @@ import UIKit
 import Firebase
 import Hyphenate
 import MBProgressHUD
+import Foundation
+//import ILLoginKit
 
-
-class LoginVC: UIViewController {
+class LoginVC:UIViewController {
     let screenHeight = UIScreen.main.bounds.height
     let screenWidth  = UIScreen.main.bounds.width
     var token: String?
     var ref: DatabaseReference?
+    var newView = UIView(frame: CGRect(x: 0, y: 0, width: 0, height: 0))
     
     let Instructions: UILabel = {
         let label = UILabel()
@@ -27,12 +29,20 @@ class LoginVC: UIViewController {
         label.textAlignment = .center
         return label
     }()
-    
+
     func setupInstructions(){
         Instructions.translatesAutoresizingMaskIntoConstraints = false
         Instructions.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         Instructions.topAnchor.constraint(equalTo: view.topAnchor, constant:125).isActive = true
         Instructions.widthAnchor.constraint(equalToConstant: screenWidth*0.8).isActive = true
+    }
+    func setupNewView(){
+        
+        newView.translatesAutoresizingMaskIntoConstraints = false
+        newView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        newView.topAnchor.constraint(equalTo: view.topAnchor, constant:125).isActive = true
+        newView.widthAnchor.constraint(equalToConstant: screenWidth).isActive = true
+        self.view.addSubview(newView)
     }
     
     let Username: UITextField = {
@@ -48,6 +58,7 @@ class LoginVC: UIViewController {
         Username.rightAnchor.constraint(equalTo: view.rightAnchor, constant:-screenWidth*0.075).isActive = true
         Username.topAnchor.constraint(equalTo: Instructions.bottomAnchor, constant:screenHeight*accountToLabel).isActive = true
         Username.widthAnchor.constraint(equalToConstant: screenWidth*0.65).isActive = true
+        Username.addTarget(self, action: Selector("emailTargetFunction"), for: UIControlEvents.touchDown)
     }
     
     let Password: UITextField = {
@@ -76,7 +87,15 @@ class LoginVC: UIViewController {
         EmailLabel.rightAnchor.constraint(equalTo: Username.leftAnchor).isActive = true
         EmailLabel.topAnchor.constraint(equalTo: Username.topAnchor).isActive = true
         EmailLabel.widthAnchor.constraint(equalToConstant: screenWidth*0.2).isActive = true
+        
+        
     }
+    
+    func emailTargetFunction() {
+        // user touch field
+        Password.text = ""
+    }
+
     
     let PasswordLabel: UILabel = {
         let label = UILabel(frame: CGRect(x: 0, y: 0, width: 1, height: 1))
@@ -242,8 +261,7 @@ class LoginVC: UIViewController {
     }
     let buttonWidthFactor:CGFloat = 0.47
     let buttonHightFacotor: CGFloat = 0.07
-    let buttonIntervalFactor:CGFloat = 0.25
-    let buttonToLabel: CGFloat = 0.16
+    let buttonToLabel: CGFloat = 0.1
     let labelToTop: CGFloat = 0.14
     
     func setupLoginButton(){
@@ -282,6 +300,12 @@ class LoginVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        //KeyboardAvoiding.avoidingView = self.Username
+        //KeyboardAvoiding.avoidingView = self.Password
+        //KeyboardAvoiding.paddingForCurrentAvoidingView = UIScreen.main.bounds.height*buttonToLabel
+        //KeyboardAvoiding.avoidingView = self.LoginButton
+        //KeyboardAvoiding.setAvoidingView(self.view, withTriggerView: self.Username)
+        
         self.title = "Login"
         view.backgroundColor = UIColor(hex: "EFEFF4")
         ref = Database.database().reference()
@@ -306,6 +330,7 @@ class LoginVC: UIViewController {
         
         
     }
+
     
 }
 

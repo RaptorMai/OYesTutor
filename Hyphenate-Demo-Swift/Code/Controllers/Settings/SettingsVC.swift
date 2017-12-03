@@ -21,7 +21,7 @@ class SettingsVC: UITableViewController, MFMailComposeViewControllerDelegate {
         self.tableView.register(UINib(nibName: "LabelTableViewCell", bundle: nil), forCellReuseIdentifier: "labelCell")
         // Do any additional setup after loading the view.
         
-        tableView.isScrollEnabled = false
+        tableView.isScrollEnabled = true
     }
 
     override func didReceiveMemoryWarning() {

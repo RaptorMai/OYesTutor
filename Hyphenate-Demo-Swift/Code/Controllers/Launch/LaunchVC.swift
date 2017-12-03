@@ -8,6 +8,9 @@
 
 import UIKit
 import Firebase
+import Hyphenate
+import MBProgressHUD
+import Foundation
 
 //Name change for this VC
 class LaunchViewController: UIViewController {
@@ -15,7 +18,8 @@ class LaunchViewController: UIViewController {
     let screenHeight = UIScreen.main.bounds.height
     let screenWidth  = UIScreen.main.bounds.width
     var token: String?
-
+    let controller = LFLoginController()
+    var ref: DatabaseReference?
     
     let MainLabel: UILabel = {
         let label = UILabel()
@@ -85,10 +89,11 @@ class LaunchViewController: UIViewController {
     }()
     
     func Login(){
-        navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style:.plain, target: nil, action: nil)
-        let loginVC = LoginVC()
-        loginVC.token = self.token
-        navigationController?.pushViewController(loginVC, animated: true)
+        //navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style:.plain, target: nil, action: nil)
+        //let loginVC = LoginVC()
+        //loginVC.token = self.token
+        //navigationController?.pushViewController(loginVC, animated: true)
+        navigationController?.pushViewController(controller, animated: true)
     }
     let buttonWidthFactor:CGFloat = 0.4
     let buttonHightFacotor: CGFloat = 0.07
@@ -106,7 +111,7 @@ class LaunchViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        ref = Database.database().reference()
         view.backgroundColor = UIColor.init(hex: "2F2F2F")
         view.addSubview(MainLabel)
         setupMainLabel()
@@ -116,10 +121,57 @@ class LaunchViewController: UIViewController {
         setupRegisterButton()
         view.addSubview(LoginButton)
         setupLoginButton()
+        controller.delegate = self
+        
+        // Customizations
+        //controller.logo = UIImage(named: "AwesomeLabsLogoWhite")
+        //controller.isSignupSupported = false
+        //controller.backgroundColor = UIColor(red: 224 / 255, green: 68 / 255, blue: 98 / 255, alpha: 1)
+        //controller.videoURL = Bundle.main.url(forResource: "PolarBear", withExtension: "mov")!
+        controller.loginButtonColor = UIColor.purple
+        //        controller.setupOnePassword("YourAppName", appUrl: "YourAppURL")
         
         
     }
-    
+    func UsernameValid(_ Username: String) -> Bool{
+        //self.show("Logging in")
+        let email = Username
+        let emailNoSpace = email.trimmingCharacters(in: .whitespacesAndNewlines)
+        if emailNoSpace == ""{
+            let alert = UIAlertController(title: "Error", message: "Email can't be empty", preferredStyle: .alert)
+            let okay = UIAlertAction(title: "Ok", style: .cancel, handler: nil)
+            alert.addAction(okay)
+            self.hideHub()
+            self.present(alert, animated: true, completion: nil)
+            return false
+        }
+        let emailRegEx = "[A-Z0-9a-z._%+-]+@[A-Z0-9a-z.-]+\\.[A-Za-z]{2,15}"
+        let emailverify = NSPredicate(format:"SELF MATCHES %@",emailRegEx)
+        let res = emailverify.evaluate(with: emailNoSpace)
+        if !res{
+            let alert = UIAlertController(title: "Error", message: "Email is badly formatted", preferredStyle: .alert)
+            let okay = UIAlertAction(title: "Ok", style: .cancel, handler: nil)
+            alert.addAction(okay)
+            self.hideHub()
+            self.present(alert, animated: true, completion: nil)
+            return false
+        }
+        return res
+    }
+    func PasswordValid(_ Password: String) -> Bool{
+        let pw = Password
+        //self.show("Logging in")
+        let pwNoSpace = pw.trimmingCharacters(in: .whitespacesAndNewlines)
+        if pwNoSpace == ""{
+            let alert = UIAlertController(title: "Error", message: "Password can't be empty", preferredStyle: .alert)
+            let okay = UIAlertAction(title: "Ok", style: .cancel, handler: nil)
+            alert.addAction(okay)
+            self.hideHub()
+            self.present(alert, animated: true, completion: nil)
+            return false
+        }
+        return true
+    }
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         /*
@@ -131,5 +183,107 @@ class LaunchViewController: UIViewController {
     }
 
 
+
+}
+
+extension LaunchViewController: LFLoginControllerDelegate {
+    
+    func loginDidFinish(email: String, password: String, type: LFLoginController.SendType) {
+        
+        // Implement your server call here
+        
+        print(email)
+        print(password)
+        print(type)
+        
+        if UsernameValid(email) && PasswordValid(password) {
+            let emailNoSpace = email.trimmingCharacters(in: .whitespacesAndNewlines)
+            let pw = password
+            let pwNoSpace = pw.trimmingCharacters(in: .whitespacesAndNewlines)
+            self.show("Logging in")
+            Auth.auth().signIn(withEmail: emailNoSpace, password: pwNoSpace) { (user, error) in
+                if error != nil {
+                    self.hideHub()
+                    self.controller.wrongInfoShake()
+                    let alert = UIAlertController(title: "Error", message: "\((error?.localizedDescription)!)", preferredStyle: .alert)
+                    let okay = UIAlertAction(title: "Ok", style: .cancel, handler: nil)
+                    alert.addAction(okay)
+                    self.present(alert, animated: true, completion: nil)
+                    
+                }
+                else{
+                    var usernameNoSign = email.replacingOccurrences(of: "@", with: "")
+                    usernameNoSign = usernameNoSign.replacingOccurrences(of: ".", with: "")
+                    usernameNoSign = usernameNoSign.lowercased()
+                    //let uid = EMClient.shared().currentUsername!
+                    AppConfig.sharedInstance.getUserProfileAtLogin(usernameNoSign)
+                    weak var weakSelf = self
+                    EMClient.shared().login(withUsername: usernameNoSign, password: usernameNoSign) { (username, error) in
+                        if error == nil {
+                            self.hideHub()
+                            EMClient.shared().options.isAutoLogin = true
+                            NotificationCenter.default.post(name: NSNotification.Name(rawValue:KNOTIFICATION_LOGINCHANGE), object: NSNumber(value: true))
+                            //Save token to firebase
+                            if let tokenNotNil = self.token{
+                                let addToken = ["token": tokenNotNil] as [String: String?]
+                                self.ref?.child("tutors/\(usernameNoSign)").updateChildValues(addToken)
+                            }
+                            let homeVC = UIStoryboard(name: "CellPrototype", bundle: nil).instantiateViewController(withIdentifier: "MainTabView")
+                            self.present(homeVC, animated: true, completion: nil)
+                        } else {
+                            self.hideHub()
+                            var alertStr = ""
+                            switch error!.code {
+                            case EMErrorUserNotFound:
+                                alertStr = error!.errorDescription
+                                break
+                            case EMErrorNetworkUnavailable:
+                                alertStr = error!.errorDescription
+                                break
+                            case EMErrorServerNotReachable:
+                                alertStr = error!.errorDescription
+                                break
+                            case EMErrorUserAuthenticationFailed:
+                                alertStr = error!.errorDescription
+                                break
+                            case EMErrorServerTimeout:
+                                alertStr = error!.errorDescription
+                                break
+                            default:
+                                alertStr = error!.errorDescription
+                                break
+                            }
+                            
+                            let alertView = UIAlertView.init(title: nil, message: alertStr, delegate: nil, cancelButtonTitle: "okay")
+                            alertView.show()
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    func forgotPasswordTapped(email: String) {
+        print("forgot password: \(email)")
+        if UsernameValid(email){
+            let emailNoSpace = email.trimmingCharacters(in: .whitespacesAndNewlines)
+            self.show("")
+            Auth.auth().sendPasswordReset(withEmail: emailNoSpace) { error in
+                self.hideHub()
+                if error != nil{
+                    let alert = UIAlertController(title: "Error", message: "\((error?.localizedDescription)!)", preferredStyle: .alert)
+                    let okay = UIAlertAction(title: "Ok", style: .cancel, handler: nil)
+                    alert.addAction(okay)
+                    self.present(alert, animated: true, completion: nil)
+                }
+                else{
+                    let alert = UIAlertController(title: "Email Sent", message: "Please check Email and reset password", preferredStyle: .alert)
+                    let okay = UIAlertAction(title: "Ok", style: .cancel, handler: nil)
+                    alert.addAction(okay)
+                    self.present(alert, animated: true, completion: nil)
+                }
+            }
+        }
+    }
 }
 
