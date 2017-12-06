@@ -30,6 +30,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     
     func messaging(_ messaging: Messaging, didRefreshRegistrationToken fcmToken: String) {
         print("Firebase registration token: \(fcmToken)")
+        //add to token so that it will be saved into database in future VC
+        if EMClient.shared().isAutoLogin {
+            proceedLogin(fcmToken)
+        } else {
+            proceedLogout(fcmToken)
+            //EMClient.shared().options.isAutoLogin = true
+        }
         //Messaging.messaging().subscribe(toTopic: "topic/newQuestion")
     }
     func messaging(_ messaging: Messaging, didReceive remoteMessage: MessagingRemoteMessage) {
@@ -75,7 +82,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         
         window = UIWindow(frame: UIScreen.main.bounds)
         window?.makeKeyAndVisible()
-        
+        FirebaseApp.configure()
+
+        // For iOS 10 data message (sent via FCM
+        Messaging.messaging().delegate = self
         //Register notification
         if #available(iOS 10.0, *) {
             // For iOS 10 display notification (sent via APNS)
@@ -84,8 +94,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             UNUserNotificationCenter.current().requestAuthorization(
                 options: authOptions,
                 completionHandler: {_, _ in })
-            // For iOS 10 data message (sent via FCM
-            Messaging.messaging().delegate = self
+
         } else {
             let settings: UIUserNotificationSettings =
                 UIUserNotificationSettings(types: [.alert, .badge, .sound], categories: nil)
@@ -93,17 +102,23 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         }
         
         application.registerForRemoteNotifications()
-        FirebaseApp.configure()
         
         let token = Messaging.messaging().fcmToken
-
-        //add to token so that it will be saved into database in future VC
-        if EMClient.shared().isAutoLogin {
-            proceedLogin(token)
-        } else {
-            proceedLogout(token)
-            //EMClient.shared().options.isAutoLogin = true
+        if token == nil{
+            let TempVC = UIStoryboard(name: "Launch Screen", bundle: nil).instantiateViewController(withIdentifier: "Start")
+            window?.rootViewController = TempVC
         }
+        else{
+            if EMClient.shared().isAutoLogin {
+                proceedLogin(token)
+            } else {
+                proceedLogout(token)
+                //EMClient.shared().options.isAutoLogin = true
+            }
+        }
+        
+        
+        
         
         parseApplication(application, didFinishLaunchingWithOptions: launchOptions)
 
@@ -125,6 +140,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         return true
     }
     
+    
     func applicationDidBecomeActive(_ application: UIApplication) {
         // check if the user comes back from appstore when force update needed
         if AppConfig.sharedInstance.appForceUpdateRequired {
@@ -140,6 +156,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     
     //add new VC called AutoLoginVC
     func proceedLogin(_ token: String?) {
+        window = UIWindow(frame: UIScreen.main.bounds)
+        window?.makeKeyAndVisible()
         let uid = EMClient.shared().currentUsername!
         // TODO: have to use flagged version: update on demand
         AppConfig.sharedInstance.getUserProfileAtLogin(uid)
@@ -147,6 +165,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         let autoLogin = AutoLoginVC()
         autoLogin.token = token
         window?.rootViewController = autoLogin
+
 //        let ref = Database.database().reference()
 //        let addToken = ["token": token] as [String: String?]
 //        print(uid)
@@ -164,9 +183,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         print(remoteMessage.appData)
     }
     
-    
     // logout
     func proceedLogout(_ token: String?) {
+        window = UIWindow(frame: UIScreen.main.bounds)
+        window?.makeKeyAndVisible()
         if !EMClient.shared().isLoggedIn {
             EMClient.shared().logout(true)
             let launchVC =  LaunchViewController()
@@ -174,7 +194,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             let RVController = UINavigationController(rootViewController:launchVC)
             RVController.navigationBar.barStyle = .blackTranslucent
             window?.rootViewController = RVController
-            
+
             AppConfig.sharedInstance.resetProfileDefaults()
         } else {
             proceedLogin(token)
@@ -199,10 +219,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     func applicationWillEnterForeground(_ application: UIApplication) {
         EMClient.shared().applicationWillEnterForeground(application)     
     }
- /*
+ 
     func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
-        EMClient.shared().registerForRemoteNotifications(withDeviceToken: deviceToken, completion: nil)
-    }*/
+        //EMClient.shared().registerForRemoteNotifications(withDeviceToken: deviceToken, completion: nil)
+        print(1)
+    }
 
     // Firebase notification received
     //@available(iOS 10.0, *)
