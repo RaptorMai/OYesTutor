@@ -153,7 +153,7 @@ class EMChatViewController: UIViewController, EMChatToolBarDelegate, EMChatManag
         self.navigationItem.setHidesBackButton(true, animated:true);
         if _conversaiton?.type == EMConversationTypeChat {
 //            navigationItem.rightBarButtonItems = [UIBarButtonItem.init(customView: _audioButton!), UIBarButtonItem.init(customView: _camButton!)]
-            title = EMUserProfileManager.sharedInstance.getNickNameWithUsername(username: (_conversaiton?.conversationId!)!)
+            //title = EMUserProfileManager.sharedInstance.getNickNameWithUsername(username: (_conversaiton?.conversationId!)!)
         } else if _conversaiton?.type == EMConversationTypeGroupChat {
             navigationItem.rightBarButtonItem = UIBarButtonItem.init(customView: _detailButton!)
             title = EMConversationModel.init(conversation: _conversaiton!).title()

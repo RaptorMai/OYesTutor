@@ -75,7 +75,7 @@ struct DataBaseKeys {
     }
     
     static let defaultDict = [serverAddress: "us-central1-instasolve-d8c55.cloudfunctions.net" as NSObject,
-                              appStoreLink: "itms://itunes.apple.com/app/apple-store/id1295553974?mt=8" as NSObject]
+                              appStoreLink: "itms://itunes.apple.com/app/apple-store/id1305182497?mt=8" as NSObject]
 }
 
 enum ConfigError: Error {

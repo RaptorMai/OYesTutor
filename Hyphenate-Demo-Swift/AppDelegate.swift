@@ -79,9 +79,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 //        window?.rootViewController = launchVC
 //        window?.makeKeyAndVisible()
         
-        
-        window = UIWindow(frame: UIScreen.main.bounds)
-        window?.makeKeyAndVisible()
         FirebaseApp.configure()
 
         // For iOS 10 data message (sent via FCM
@@ -105,6 +102,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         
         let token = Messaging.messaging().fcmToken
         if token == nil{
+            window = UIWindow(frame: UIScreen.main.bounds)
+            window?.makeKeyAndVisible()
             let TempVC = UIStoryboard(name: "Launch Screen", bundle: nil).instantiateViewController(withIdentifier: "Start")
             window?.rootViewController = TempVC
         }
